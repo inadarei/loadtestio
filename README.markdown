@@ -11,7 +11,7 @@ tools that only hit limited number of URLs.
 
 ## Installation
 
- * Properly install Jakarta Ant on your system.
+ * Properly install JDK6 and the latest Jakarta Ant on your system.
  * Run "ant dist" or "ant build" from console
  * cd dist
  * Edit conf/crawlerconfig.xml to customize load-test for your URLs
