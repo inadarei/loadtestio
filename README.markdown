@@ -68,13 +68,13 @@ to concentrate on the hard problem and leave the trivial one alone.
 The real "meat" of the application is in its monitor.log output. Every "monitorInterval"
 seconds it shows you a snapshot which looks like the following:
 
-<code>
+<pre><code>
 17:09:04::393 ====== Elapsed: 5.42 mins =====
 Average Speed: 11.37 pages/second fetched 
 Average Page-load: 88.0ms 
 Current Speed: 14.15 pages/second fetched 
 Active Threads: 400
-</code>
+</code></pre>
 
 Average Speed: is how many page requests per second are served on average.
 Average Page Load: is how long it takes on average to return a single request.
