@@ -1,0 +1,159 @@
+<project name="loadtestio" basedir="." default="dist">
+    
+  <!-- Project settings -->
+  <property name="project.title" value="LoadTest.io"/>
+  <property name="project.distname" value="loadtestio"/>
+  <property name="project.version" value="1.0"/>
+  <property name="lib" location="./lib"/>
+  <property name="classes" location="./classes"/>
+  <property name="src" location="./src"/>
+  <property name="test" location="./test"/>
+
+  <!-- Path settings -->
+  <property name="doc.path" value="./doc/api"/>
+  <property name="doc.src" value="./src/java"/>
+  <property name="distpath.project" value="./dist"/>
+  <property name="debug" value="true"/>
+
+  <path id="compile.classpath">
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+      <include name="**/*.zip"/>
+    </fileset>
+  </path>
+
+  <path id="run.classpath">
+    <pathelement location="${classes}"/>
+    <fileset dir="${lib}">
+      <include name="**/*.jar"/>
+      <include name="**/*.zip"/>
+    </fileset>
+  </path>
+
+  <!-- Check timestamp on files -->
+  <target name="prepare">
+    <tstamp/>
+    <mkdir dir="${classes}"/>
+    <mkdir dir="${distpath.project}"/>
+  </target>
+
+  <!-- Copy any resource or configuration files -->
+  <target name="resources">
+    <copy todir="${classes}" includeEmptyDirs="no">
+      <fileset dir="${src}">
+        <patternset>
+          <include name="**/*.conf"/>
+          <include name="**/*.properties"/>
+          <include name="**/*.xml"/>
+          <include name="**/*.xsl"/>
+        </patternset>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="testResources">
+    <copy todir="${classes}" includeEmptyDirs="no">
+      <fileset dir="${test}">
+        <patternset>
+          <include name="**/*.conf"/>
+          <include name="**/*.properties"/>
+          <include name="**/*.xml"/>
+          <include name="**/*.ccf"/>
+          <include name="**/*.xsl"/>
+        </patternset>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- Developer compilation of the application -->
+  <target name="compile" depends="prepare,resources">
+    <javac srcdir="${src}" destdir="${classes}" deprecation="on" debug="${debug}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+    <copy file="misc/log4j.properties" todir="${classes}"/>  
+  </target>
+
+  <target name="testCompile" depends="compile, testResources">
+    <javac srcdir="${test}" destdir="${classes}" deprecation="on" debug="${debug}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <!-- Remove classes directory for clean build -->
+  <target name="clean" description="Prepare for clean build">
+    <delete dir="${classes}"/>
+    <delete dir="${doc.path}"/>
+    <delete dir="${distpath.project}"/>
+  </target>
+
+  <!-- Build Javadoc documentation -->
+  <target name="javadoc" description="Generate JavaDoc API docs">
+    <delete dir="${doc.path}"/>
+    <mkdir dir="${doc.path}"/>
+    <javadoc sourcepath="${src}" destdir="${doc.path}" packagenames="*" author="true" private="true" version="true" windowtitle="${project.title} API Documentation" doctitle="&lt;h1&gt;${project.title} Documentation (Version ${project.version})&lt;/h1&gt;">
+      <classpath refid="compile.classpath"/>
+    </javadoc>
+  </target>
+
+  <!-- Build entire project -->
+  <target name="project" depends="clean,prepare,compile,javadoc"/>
+  <!-- Clean the distribution directories to prevent dist from failing the second time around -->
+
+  <target name="cleanDist">
+    <tstamp/>
+    <delete dir="${distpath.project}"/>
+  </target>
+
+  <!-- Create binary distribution -->
+  <target name="dist" description="Create binary distribution" depends="cleanDist, compile">
+    <mkdir dir="${distpath.project}"/>
+    <mkdir dir="${distpath.project}/lib"/>      
+    <jar jarfile="${distpath.project}/lib/${project.distname}.jar" basedir="${classes}"/>
+    <copy file="misc/run.bat" todir="${distpath.project}"/>
+    <copy file="misc/run.sh" todir="${distpath.project}"/>
+    <copy file="misc/log4j.properties" todir="${distpath.project}"/>
+    <!--copy file="conf/crawlerConfig.xml" todir="${distpath.project}/conf"/-->
+    <copy todir="${distpath.project}/lib" includeEmptyDirs="no">
+      <fileset dir="${lib}">
+        <include name="**/*.jar"/>
+        <include name="**/*.zip"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <!-- Create binary distribution -->
+  <target name="build" description="Create Binary Distribution (Alias)" depends="dist" />
+
+  <!--
+    This needs junit.jar to be put under ANT. Useful for integration with JIRA or
+    some other reporting/monitoring tool
+  -->
+  <target name="junit" depends="testCompile">
+    <junit printsummary="yes" haltonfailure="yes" showoutput="yes" reloading="true">
+      <classpath refid="run.classpath"/>
+      <formatter type="xml"/>
+      <formatter type="plain"/>
+      <test name="com.jcrawler.test.AllTests" haltonfailure="no" outfile="test_result"/>
+    </junit>
+  </target>
+
+  <!-- Text-mode Unit-test runner -->
+  <target name="runtests" depends="testCompile">
+    <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
+      <arg value="com.jcrawler.test.AllTests"/>
+      <classpath refid="run.classpath"/>
+    </java>
+  </target>
+
+  <!-- GUI (Swing) mode Unit-test runner -->
+  <target name="runtestsgui" depends="testCompile">
+    <java fork="yes" classname="junit.swingui.TestRunner" taskname="junit" failonerror="true">
+      <arg value="com.jcrawler.test.AllTests"/>
+      <classpath refid="run.classpath"/>
+    </java>
+  </target>
+
+  <!-- Build project and create distribution-->
+  <target name="all" depends="project,dist"/>
+
+</project>
