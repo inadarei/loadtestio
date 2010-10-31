@@ -17,6 +17,10 @@ optimistic and misleading. Real traffic from real users will not just hit 20 han
 from your web-site.
 
 ## Installation
+ * Downlaod the pre-built loadtest.io.v0.1.tar.gz and untar it
+ * Install JDK6
+
+OR
 
  * Properly install JDK6 and the latest Jakarta Ant on your system.
  * Run "ant dist" or "ant build" from console
