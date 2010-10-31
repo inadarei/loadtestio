@@ -11,7 +11,9 @@ tools that only hit limited number of URLs.
 
 ## Why Do I Care?
 
-The majority of tools currently available do not have auto-discovery feature. Which means they can only test a fixed set of URLs. But any reasonably built web-system has some kind of caching, so after the first hit, any consequent hit to the same URL only tests your cache
+The majority of tools currently available do not have auto-discovery feature. Which means they 
+can only test a fixed set of URLs. But any reasonably built web-system has some kind of caching, 
+so after the first hit, any consequent hit to the same URL only tests your cache
 not - the web system (application layer, database etc). Such test can be unrealistically 
 optimistic and misleading. Real traffic from real users will not just hit 20 hand-picked URLs 
 from your web-site.
