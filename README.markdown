@@ -43,9 +43,11 @@ After either of those:
 ## Analyzes
 The output on the screen just displays URLs being currently processed. This output
 is only useful to deduce the health of the test run:
+
  * Are the URLs the ones you expect?
  * Are you getting broken connection attempts?
  * Are there too many redirects?
+
 But it does not tell you much about the system's scalability per se.
 
 ## What is being measured?
