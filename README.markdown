@@ -1,13 +1,20 @@
-## Installation
+## What is It?
 
-LoadTest.io is ideal for load-tests that target breadth. You give the app
-some initial URLs and it will crawl the rest of your website, auto-discovering
-links as it goes. It will also try to not repeat already-tested URLs and reach
+LoadTest.io is multi-threaded load-tester with auto-discovery. It is ideal for load-tests that 
+target breadth. You give loadtest.io some initial URLs and it will crawl the rest of your website,
+auto-discovering links as it goes. It will also try to not repeat already-tested URLs and reach
 maximum number of unique URLs in the shortest time possible.
 
 Due to this characteristic, LoadTest.io is a very good tool for testing websites
 that employ caching. Such websites can not adequately be tested by stress-testing
 tools that only hit limited number of URLs.
+
+## Why Do I Care?
+
+The majority of tools currently available do not have auto-discovery feature. Which means they can only test a fixed set of URLs. But any reasonably built web-system has some kind of caching, so after the first hit, any consequent hit to the same URL only tests your cache
+not - the web system (application layer, database etc). Such test can be unrealistically 
+optimistic and misleading. Real traffic from real users will not just hit 20 hand-picked URLs 
+from your web-site.
 
 ## Installation
 
@@ -52,12 +59,13 @@ to concentrate on the hard problem and leave the trivial one alone.
 The real "meat" of the application is in its monitor.log output. Every "monitorInterval"
 seconds it shows you a snapshot which looks like the following:
 
+<code>
 17:09:04::393 ====== Elapsed: 5.42 mins =====
 Average Speed: 11.37 pages/second fetched 
 Average Page-load: 88.0ms 
 Current Speed: 14.15 pages/second fetched 
 Active Threads: 400
-
+</code>
 
 Average Speed: is how many page requests per second are served on average.
 Average Page Load: is how long it takes on average to return a single request.
@@ -85,4 +93,3 @@ reasonably certain that your system can handle that load. When you find a load-l
 at which Active Thread keeps increasing - your web-system is near its capacity.
 
 Happy hunting.
-

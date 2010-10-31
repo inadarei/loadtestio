@@ -4,7 +4,7 @@
 	  Interval (in milliseconds) to invoke a crawl thread.
 	  There is an HTTP hit every <interval> millisecond.
 	-->
-	<hitsPerSecond>40</hitsPerSecond>
+	<hitsPerSecond>20</hitsPerSecond>
 
 	<!--
 	  Interval (in milliseconds) to invoke a monitor thread.
