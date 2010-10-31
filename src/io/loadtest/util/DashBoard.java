@@ -1,12 +1,11 @@
 package io.loadtest.util;
 
+import io.loadtest.threads.MonitorThread;
+
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.SortedSet;
-
-/**
- * Author: Irakli Nadareishvili. Copyright (C) 2010.
- */
-
-import java.util.*;
+import java.util.TreeSet;
 
 /**
  * One of our goals in load-test-crawling a web-application is to be able to
@@ -31,6 +30,8 @@ public class DashBoard {
    * @param time int
    */
   public static void add(String url, long time) {
+
+    MonitorThread.totalTimeSpentFetching += time;
 
     UrlRecord newSlowUrl = new UrlRecord(url, time);
 

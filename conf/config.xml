@@ -4,7 +4,7 @@
 	  Interval (in milliseconds) to invoke a crawl thread.
 	  There is an HTTP hit every <interval> millisecond.
 	-->
-	<hitsPerSecond>5</hitsPerSecond>
+	<hitsPerSecond>40</hitsPerSecond>
 
 	<!--
 	  Interval (in milliseconds) to invoke a monitor thread.
@@ -14,8 +14,7 @@
 	<monitorInterval>2000</monitorInterval>
 
 	<!-- HTTP connection timeout in milliseconds -->
-	<connectionTimeout>9000</connectionTimeout>
-
+	<connectionTimeout>15000</connectionTimeout>
 
 	<!-- Headers to be used by the http client crawler -->
 	<headers>
@@ -24,13 +23,12 @@
 		<header name="Accept-Language">en-us</header>
 	</headers>
 
-
 	<!-- URLs to start crawling from -->
 	<crawl-urls>
 		<!--
 		<url>http://www.msn.com/</url>
 		-->
-    <url>http://cnn.com/</url>    
+    <url>http://www.cnn.com</url>    
 	</crawl-urls>
 
 

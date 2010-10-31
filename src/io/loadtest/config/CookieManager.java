@@ -65,9 +65,8 @@ public class CookieManager {
       Collection domainCookies;
       Cookie curCookie;
 
-      synchronized (Crawler.cookieWatch) {
-        domainCookies = getDomainCookies(domain);
-      }
+      domainCookies = getDomainCookies(domain);
+
       if (domainCookies != null) {
         Iterator it = domainCookies.iterator();
         while (it.hasNext()) {

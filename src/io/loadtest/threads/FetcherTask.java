@@ -24,11 +24,9 @@ public class FetcherTask extends Thread {
   public void run() {
     log.debug("Starting FetcherTask");
 
-    log.info(Crawler.getCurrentTime());
-
     if (Crawler.rawURLs.isEmpty()) return;
     if (Crawler.stopCrawler) return;
-
+    
     String urlString = (String) Crawler.rawURLs.remove(0);
 
     if (urlString == null) {
@@ -39,7 +37,7 @@ public class FetcherTask extends Thread {
     //-- Store just hashcodes of already-processed URLs to minimize memory footprint.
     String urlHashCode = this.hashcode(urlString);
     //String urlHashCode = urlString;
-    synchronized(Crawler.getUrls()) {
+    synchronized(Crawler.rawURLs) {
       if (Crawler.getUrls().contains(urlHashCode)) {
         return;
       }
@@ -63,7 +61,6 @@ public class FetcherTask extends Thread {
       log.warn("resultedHTML is null for url " + urlString);
     }
 
-    
     log.debug("FetcherTask Completed");
     Crawler.numOfActiveThreads--;
   }

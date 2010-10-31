@@ -158,7 +158,7 @@ public class Main {
     }
   }
 
-  private static void printMap(Map map) {
+  public static void printMap(Map map) {
     if (map != null) {
       Set keyset = map.keySet();
       if (keyset != null) {

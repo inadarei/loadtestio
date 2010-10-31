@@ -86,8 +86,11 @@ public class MonitorThread extends Thread {
     String display = " ====== Elapsed: " + formatter.format("%.2f", seconds) + " mins =====";
     long numProcessed = Crawler.fetchedCounter;
     try {
-      float speed = (float)Math.round((float)numProcessed / elapsedSeconds * 100)/100;
+      double totalSecondsFetching = totalTimeSpentFetching / 1000.0;
+      double speed = (float)Math.round((float)totalSecondsFetching/(float)numProcessed * 100.0)/100.0;
+      double pageLoad = (float)Math.round((float)numProcessed/(float)totalSecondsFetching * 10000.0)/10.0;
       display += "\nAverage Speed: " + speed + " pages/second fetched ";
+      display += "\nAverage Page-load: " + pageLoad + "ms ";      
       display += "\nCurrent Speed: " + getCurrentSpeed() + " pages/second fetched ";
       display += "\nActive Threads: " + Crawler.numOfActiveThreads;
     }
@@ -118,6 +121,13 @@ public class MonitorThread extends Thread {
 
   /** used to calculate current speed **/
   private static final long PERIOD_CS = 3;
+
+  /** Used to calculate more accurate average speed that total time/things processed
+   *  The problem with total time is: there're many other things going on (e.g. html
+   *  page parsing and reporting all kinds of stuff including the ones by this class)
+   *  aside from fetching URLs and total time-based calculation can be very unfavorable.
+   */
+  public static volatile long totalTimeSpentFetching;
 
   /**
    * This is kinda more accurate than the average speed of a multihour process.

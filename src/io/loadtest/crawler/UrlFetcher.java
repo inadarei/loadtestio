@@ -65,7 +65,7 @@ public class UrlFetcher {
 
     log.debug("Fetching URL " + urlString);
 
-    Crawler.getUrls().add( urlString );
+    Crawler.getUrls().add( urlString );    
 
     String content = "";
 
@@ -80,10 +80,13 @@ public class UrlFetcher {
       httpget = new GetMethod(urlString);
     }
     catch (IllegalArgumentException ex1) {
-      throw new UrlFetchException();
-    }
+      try {
+        httpget.releaseConnection();
+      } catch (Exception e) {}
+      return("");
+    } 
 
-    Map headers = ConfigParser.getSettings().getHeaders();
+    Map headers = ConfigParser.getSettings().getHeaders();    
     if (headers != null) {
       Set headerKeys = headers.keySet();
       if (headerKeys != null) {
@@ -100,27 +103,26 @@ public class UrlFetcher {
     }
 
     // Execute HTTP GET
-    int result = 0;
+    int responseCode = 0;
     try {
 
       long startTime = System.nanoTime();
-      result = httpclient.executeMethod(httpget);
+      responseCode = httpclient.executeMethod(httpget);
 
       // Save the cookies
       Cookie[] cookies = httpclient.getState().getCookies();
-      synchronized(CookieManager.cookies) {
-        for (int i = 0; i < cookies.length; i++) {
-          CookieManager.addCookie(cookies[i]);
-        }
+      for (int i = 0; i < cookies.length; i++) {
+        CookieManager.addCookie(cookies[i]);
       }
 
       String redirectLocation = null;
       Header locationHeader = httpget.getResponseHeader("location");
+
       if (locationHeader != null) {
         redirectLocation = locationHeader.getValue();
-        log.info("-------- Redirect Location: " + redirectLocation);
+        log.info("-- Redirecting: [" + urlString + "] to Location: " + redirectLocation);
 
-        if (redirectLocation != null) {
+        if (!redirectLocation.equals(null)) {
           // Perform Redirect!
           content = fetch(redirectLocation);
         }
@@ -131,16 +133,18 @@ public class UrlFetcher {
           log.error("Error redirecting");
         }
 
-      } else {
+      } else {        
         content = httpget.getResponseBodyAsString();
       }
+
+      
       long elapsed = System.nanoTime() - startTime;
       DashBoard.add( urlString, elapsed / 1000000L);
 
       MonitorThread.calculateCurrentSpeed();
 
       // Redirects do not count towards fetched urls!!!
-      if (redirectLocation != null) {
+      if (redirectLocation == null) {
         Crawler.fetchedCounter++;
         log.info("FETCHED " + Crawler.fetchedCounter + "th URL: " + urlString);
       }
