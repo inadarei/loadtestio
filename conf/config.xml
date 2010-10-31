@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<!--
+	  Interval (in milliseconds) to invoke a crawl thread.
+	  There is an HTTP hit every <interval> millisecond.
+	-->
+	<hitsPerSecond>5</hitsPerSecond>
+
+	<!--
+	  Interval (in milliseconds) to invoke a monitor thread.
+	  Monitor adds new entry in the monitor.log every <monitorInterval>
+          milliseconds
+	-->
+	<monitorInterval>2000</monitorInterval>
+
+	<!-- HTTP connection timeout in milliseconds -->
+	<connectionTimeout>9000</connectionTimeout>
+
+
+	<!-- Headers to be used by the http client crawler -->
+	<headers>
+		<header name="User-Agent">Mozilla</header>
+		<header name="Cache-Control">no-cache</header>
+		<header name="Accept-Language">en-us</header>
+	</headers>
+
+
+	<!-- URLs to start crawling from -->
+	<crawl-urls>
+		<!--
+		<url>http://www.msn.com/</url>
+		-->
+    <url>http://cnn.com/</url>    
+	</crawl-urls>
+
+
+	<!--
+	  URL patterns (regexps!!!) to allow or deny set of URLs
+	  permission=true  - these patterns are allowed (anything else is denied)
+	  permission=false - these patterns are denied (anything else is allowed)
+
+	  autoGeneratePatterns=true - if "permission=true" auto-generate patterns for the URLs in the crawl-urls list.
+	                      Has no effect if permission=false.
+	-->
+	<url-patterns permission="true" autoGeneratePatterns="true">
+    <!--
+		<pattern>.*?yahoo\.com.*</pattern>
+    <pattern>.*?microsoft\.com.*</pattern>
+    -->
+	</url-patterns>
+
+</settings>
