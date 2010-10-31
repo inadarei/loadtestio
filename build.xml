@@ -4,6 +4,7 @@
   <property name="project.title" value="LoadTest.io"/>
   <property name="project.distname" value="loadtestio"/>
   <property name="project.version" value="1.0"/>
+  <property name="author.name" value="Irakli Nadareishvili"/>
   <property name="lib" location="./lib"/>
   <property name="classes" location="./classes"/>
   <property name="src" location="./src"/>
@@ -21,7 +22,7 @@
       <include name="**/*.zip"/>
     </fileset>
   </path>
-
+    
   <path id="run.classpath">
     <pathelement location="${classes}"/>
     <fileset dir="${lib}">
@@ -69,8 +70,7 @@
   <target name="compile" depends="prepare,resources">
     <javac srcdir="${src}" destdir="${classes}" deprecation="on" debug="${debug}">
       <classpath refid="compile.classpath"/>
-    </javac>
-    <copy file="misc/log4j.properties" todir="${classes}"/>  
+    </javac>  
   </target>
 
   <target name="testCompile" depends="compile, testResources">
@@ -104,15 +104,32 @@
     <delete dir="${distpath.project}"/>
   </target>
 
+    <!-- Create jar file -->
+    <target depends="compile" name="onejar">
+        <mkdir dir="${distpath.project}"/>        
+        <jar jarfile="${distpath.project}/${project.distname}.jar">
+            <fileset dir="${classes}" />
+            <zipgroupfileset dir="${lib}">
+                <include name="**/*.jar"/>
+                <include name="**/*.zip"/>
+            </zipgroupfileset>
+            <manifest>
+                <attribute name="Created-By" value="${author.name}"/>
+                <section name="common">
+                    <attribute name="Implementation-Version" value="${project.version} ${TODAY}"/>
+                    <attribute name="Implementation-Vendor" value="${author.name}"/>
+                </section>
+                <attribute name="Main-Class" value="io.loadtest.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
   <!-- Create binary distribution -->
-  <target name="dist" description="Create binary distribution" depends="cleanDist, compile">
-    <mkdir dir="${distpath.project}"/>
-    <mkdir dir="${distpath.project}/lib"/>      
-    <jar jarfile="${distpath.project}/lib/${project.distname}.jar" basedir="${classes}"/>
+  <target name="dist" description="Create binary distribution" depends="cleanDist,onejar">
     <copy file="misc/run.bat" todir="${distpath.project}"/>
     <copy file="misc/run.sh" todir="${distpath.project}"/>
     <copy file="misc/log4j.properties" todir="${distpath.project}"/>
-    <!--copy file="conf/crawlerConfig.xml" todir="${distpath.project}/conf"/-->
+    <copy file="conf/config.xml" todir="${distpath.project}"/>
     <copy todir="${distpath.project}/lib" includeEmptyDirs="no">
       <fileset dir="${lib}">
         <include name="**/*.jar"/>
@@ -133,14 +150,14 @@
       <classpath refid="run.classpath"/>
       <formatter type="xml"/>
       <formatter type="plain"/>
-      <test name="com.jcrawler.test.AllTests" haltonfailure="no" outfile="test_result"/>
+      <test name="io.loadtest.test.AllTests" haltonfailure="no" outfile="test_result"/>
     </junit>
   </target>
 
   <!-- Text-mode Unit-test runner -->
   <target name="runtests" depends="testCompile">
     <java fork="yes" classname="junit.textui.TestRunner" taskname="junit" failonerror="true">
-      <arg value="com.jcrawler.test.AllTests"/>
+      <arg value="io.loadtest.test.AllTests"/>
       <classpath refid="run.classpath"/>
     </java>
   </target>
@@ -148,7 +165,7 @@
   <!-- GUI (Swing) mode Unit-test runner -->
   <target name="runtestsgui" depends="testCompile">
     <java fork="yes" classname="junit.swingui.TestRunner" taskname="junit" failonerror="true">
-      <arg value="com.jcrawler.test.AllTests"/>
+      <arg value="io.loadtest.test.AllTests"/>
       <classpath refid="run.classpath"/>
     </java>
   </target>
