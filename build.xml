@@ -1,5 +1,5 @@
 <project name="loadtestio" basedir="." default="dist">
-    
+
   <!-- Project settings -->
   <property name="project.title" value="LoadTest.io"/>
   <property name="project.distname" value="loadtestio"/>
@@ -22,7 +22,7 @@
       <include name="**/*.zip"/>
     </fileset>
   </path>
-    
+
   <path id="run.classpath">
     <pathelement location="${classes}"/>
     <fileset dir="${lib}">
@@ -70,7 +70,7 @@
   <target name="compile" depends="prepare,resources">
     <javac srcdir="${src}" destdir="${classes}" deprecation="on" debug="${debug}">
       <classpath refid="compile.classpath"/>
-    </javac>  
+    </javac>
   </target>
 
   <target name="testCompile" depends="compile, testResources">
@@ -90,7 +90,9 @@
   <target name="javadoc" description="Generate JavaDoc API docs">
     <delete dir="${doc.path}"/>
     <mkdir dir="${doc.path}"/>
-    <javadoc sourcepath="${src}" destdir="${doc.path}" packagenames="*" author="true" private="true" version="true" windowtitle="${project.title} API Documentation" doctitle="&lt;h1&gt;${project.title} Documentation (Version ${project.version})&lt;/h1&gt;">
+    <javadoc sourcepath="${src}" destdir="${doc.path}" packagenames="*" author="true" private="true" version="true"
+             windowtitle="${project.title} API Documentation"
+             doctitle="&lt;h1&gt;${project.title} Documentation (Version ${project.version})&lt;/h1&gt;">
       <classpath refid="compile.classpath"/>
     </javadoc>
   </target>
@@ -104,42 +106,41 @@
     <delete dir="${distpath.project}"/>
   </target>
 
-    <!-- Create jar file -->
-    <target depends="compile" name="onejar">
-        <mkdir dir="${distpath.project}"/>        
-        <jar jarfile="${distpath.project}/${project.distname}.jar">
-            <fileset dir="${classes}" />
-            <zipgroupfileset dir="${lib}">
-                <include name="**/*.jar"/>
-                <include name="**/*.zip"/>
-            </zipgroupfileset>
-            <manifest>
-                <attribute name="Created-By" value="${author.name}"/>
-                <section name="common">
-                    <attribute name="Implementation-Version" value="${project.version} ${TODAY}"/>
-                    <attribute name="Implementation-Vendor" value="${author.name}"/>
-                </section>
-                <attribute name="Main-Class" value="io.loadtest.Main"/>
-            </manifest>
-        </jar>
-    </target>
+  <!-- Create jar file -->
+  <target depends="compile" name="onejar">
+    <mkdir dir="${distpath.project}"/>
+
+    <!-- replace dev version of log4j.properties with a distro one -->
+    <delete file="${classes}/log4j.properties"/>
+    <copy file="misc/log4j.properties" todir="${classes}"/>
+
+    <jar jarfile="${distpath.project}/${project.distname}.jar">
+      <fileset dir="${classes}"/>
+      <zipgroupfileset dir="${lib}">
+        <include name="**/*.jar"/>
+        <include name="**/*.zip"/>
+      </zipgroupfileset>
+      <manifest>
+        <attribute name="Created-By" value="${author.name}"/>
+        <section name="common">
+          <attribute name="Implementation-Version" value="${project.version} ${TODAY}"/>
+          <attribute name="Implementation-Vendor" value="${author.name}"/>
+        </section>
+        <attribute name="Main-Class" value="io.loadtest.Main"/>
+      </manifest>
+    </jar>
+  </target>
 
   <!-- Create binary distribution -->
   <target name="dist" description="Create binary distribution" depends="cleanDist,onejar">
     <copy file="misc/run.bat" todir="${distpath.project}"/>
     <copy file="misc/run.sh" todir="${distpath.project}"/>
-    <copy file="misc/log4j.properties" todir="${distpath.project}"/>
-    <copy file="conf/config.xml" todir="${distpath.project}"/>
-    <copy todir="${distpath.project}/lib" includeEmptyDirs="no">
-      <fileset dir="${lib}">
-        <include name="**/*.jar"/>
-        <include name="**/*.zip"/>
-      </fileset>
-    </copy>
+    <mkdir dir="${distpath.project}/conf"/>    
+    <copy file="conf/config.xml" todir="${distpath.project}/conf"/>
   </target>
 
   <!-- Create binary distribution -->
-  <target name="build" description="Create Binary Distribution (Alias)" depends="dist" />
+  <target name="build" description="Create Binary Distribution (Alias)" depends="dist"/>
 
   <!--
     This needs junit.jar to be put under ANT. Useful for integration with JIRA or
