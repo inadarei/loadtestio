@@ -76,10 +76,10 @@ Current Speed: 14.15 pages/second fetched
 Active Threads: 400
 </code></pre>
 
-Average Speed: is how many page requests per second are served on average.
-Average Page Load: is how long it takes on average to return a single request.
-Current Speed is similar to Average Speed but calculated for last several requests only.
-Active Threads: shows how many threads LoadTest.io had to fire to keep consistent
+ * Average Speed: is how many page requests per second are served on average.
+ * Average Page Load: is how long it takes on average to return a single request.
+ * Current Speed is similar to Average Speed but calculated for last several requests only.
+ * Active Threads: shows how many threads LoadTest.io had to fire to keep consistent
 load. This number has a limit of 400, because too many threads can crash the load-tester
 itself.
 
