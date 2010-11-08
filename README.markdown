@@ -18,10 +18,10 @@ not - the web system (application layer, database etc). Such test can be unreali
 optimistic and misleading. Real traffic from real users will not just hit 20 hand-picked URLs 
 from your web-site.
 
-## Special Thanks To
+## Special Thanks To JetBrains
 
 My deepest gratitude goes to the wonderful people at <a href="http://www.jetbrains.com">JetBrains</a> who generously
-provided open-source license to their Java IDE for project. I would not be working on the project if I
+provided open-source license to their Java IDE for this project. I would not be working on the project if I
 did not have such intelligent tool to use, so if you like this project, you should check out their IDE.
 <a href="http://www.jetbrains.com/idea/" style="position: relative;display:block; width:127px; height:37px; border:0; margin:0;padding:0;text-decoration:none;text-indent:0;"><span style="margin: 0;padding: 0;position: absolute;top: 0;left: 33px;font-size: 10px;cursor:pointer;  background-image:none;border:0;color: #acc4f9; font-family: trebuchet ms,arial,sans-serif;font-weight: normal;text-align:left;">Passionate about</span><img src="http://www.jetbrains.com/idea/opensource/img/all/banners/idea125x37_blue.gif" alt="The best Java IDE" border="0"/></a>
 
