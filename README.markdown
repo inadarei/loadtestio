@@ -9,7 +9,7 @@ Due to this characteristic, LoadTest.io is a very good tool for testing websites
 that employ caching. Such websites can not adequately be tested by stress-testing
 tools that only hit limited number of URLs.
 
-## Why Do I Care?
+## Why Should You Care?
 
 The majority of tools currently available do not have auto-discovery feature. Which means they 
 can only test a fixed set of URLs. But any reasonably built web-system has some kind of caching, 
@@ -17,6 +17,13 @@ so after the first hit, any consequent hit to the same URL only tests your cache
 not - the web system (application layer, database etc). Such test can be unrealistically 
 optimistic and misleading. Real traffic from real users will not just hit 20 hand-picked URLs 
 from your web-site.
+
+## Special Thanks To
+
+My deepest gratitude goes to the wonderful people at <a href="http://www.jetbrains.com">JetBrains</a> who generously
+provided open-source license to their Java IDE for project. I would not be working on the project if I
+did not have such intelligent tool to use, so if you like this project, you should check out their IDE.
+<a href="http://www.jetbrains.com/idea/" style="position: relative;display:block; width:127px; height:37px; border:0; margin:0;padding:0;text-decoration:none;text-indent:0;"><span style="margin: 0;padding: 0;position: absolute;top: 0;left: 33px;font-size: 10px;cursor:pointer;  background-image:none;border:0;color: #acc4f9; font-family: trebuchet ms,arial,sans-serif;font-weight: normal;text-align:left;">Passionate about</span><img src="http://www.jetbrains.com/idea/opensource/img/all/banners/idea125x37_blue.gif" alt="The best Java IDE" border="0"/></a>
 
 ## Installation
  * Download the pre-built loadtest.io.v0.1.tar.gz and untar it
