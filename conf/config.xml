@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
 	<!--
-	  Interval (in milliseconds) to invoke a crawl thread.
-	  There is an HTTP hit every <interval> millisecond.
+	  The amount of HTTP load to generate measured in hits/second.
 	-->
 	<hitsPerSecond>20</hitsPerSecond>
 
 	<!--
 	  Interval (in milliseconds) to invoke a monitor thread.
-	  Monitor adds new entry in the monitor.log every <monitorInterval>
-          milliseconds
+	  Monitor adds new entry to the monitor.log every <monitorInterval> milliseconds
 	-->
 	<monitorInterval>2000</monitorInterval>
 
@@ -28,7 +26,7 @@
 		<!--
 		<url>http://www.msn.com/</url>
 		-->
-    <url>http://www.cnn.com</url>    
+        <url>http://www.cnn.com</url>
 	</crawl-urls>
 
 
@@ -37,8 +35,9 @@
 	  permission=true  - these patterns are allowed (anything else is denied)
 	  permission=false - these patterns are denied (anything else is allowed)
 
-	  autoGeneratePatterns=true - if "permission=true" auto-generate patterns for the URLs in the crawl-urls list.
-	                      Has no effect if permission=false.
+	  autoGeneratePatterns=true - if "permission=true" then auto-generate patterns
+	  for the URLs in the crawl-urls list.
+      This attribute has no effect if: "permission=false".
 	-->
 	<url-patterns permission="true" autoGeneratePatterns="true">
     <!--
