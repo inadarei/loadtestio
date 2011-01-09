@@ -135,8 +135,8 @@
   <target name="dist" description="Create binary distribution" depends="cleanDist,onejar">
     <copy file="misc/run.bat" todir="${distpath.project}"/>
     <copy file="misc/run.sh" todir="${distpath.project}"/>
-    <mkdir dir="${distpath.project}/conf"/>    
-    <copy file="conf/config.xml" todir="${distpath.project}/conf"/>
+    <mkdir dir="${distpath.project}/conf"/>
+    <copy file="conf/config.default.xml" tofile="${distpath.project}/conf/config.xml"/>
   </target>
 
   <!-- Create binary distribution -->
