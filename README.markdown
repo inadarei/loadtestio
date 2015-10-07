@@ -95,7 +95,7 @@ itself.
 So, does Average Speed of 11.37 page/second mean that your web system can only
 handle 11.37 pages/second? No, it does not, because your web system is not single-threaded
 and there's no direct formula to deduce system's capacity from this number. Pretty much,
-this number is there only for comparision. If you were getting 10p/s and you optimize
+this number is there only for comparison. If you were getting 10p/s and you optimize
 something and you get 20p/s - you know you did something right.
 
 Also, as you can see the number of active threads is at capacity (400). This is bad.
